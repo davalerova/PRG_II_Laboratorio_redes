@@ -1,15 +1,34 @@
+/**
+ * @autor: David Andŕes Valero Vanegas
+ */
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * Clase que lee un archivo dentro de la carpeta Datos y intrega la información de las direcciones IP que contiene en su interior
+ */
 public class Archivo {
+    /**
+     * Variable que almace la ruta del archivo a leer
+     */
     String path;
 
+    /**
+     * Método constructor de la clase Archivo
+     * @param path
+     */
     public Archivo(String path) {
         this.path=path;
     }
 
+    /**
+     * Método que lee la dirección IP y la imprime en cosola
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public void obtenerArchivo() throws FileNotFoundException, IOException {
         System.out.print("\nIP archivo: " + "\t\t\t\t\t\t\t\t\t\t\t\t"+"IP equivalente:"+ "\t\t\t\t\t\t\t\t\t\t\t"+"Pertenece a:"+ "\t\t"+"Observaciones:");
         String cadena;
@@ -24,12 +43,12 @@ public class Archivo {
             else if(cadena.length()<35) System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t");
             else System.out.print("\t\t\t\t\t\t\t");
             if(cadena.length()==35) {
-                extraerDatos(cadena);
+                clasificar(cadena);
                 System.out.print("\t\t\t\t\t\t\t");
             }
 
             else{
-                extraerDatos(cadena);
+                clasificar(cadena);
                 System.out.print("\t\t\t\t\t\t\t");
             }
             line++;
@@ -38,7 +57,11 @@ public class Archivo {
     }
 
 
-
+    /**
+     * Método que recibe un Strig con la dirección IP en formato decimal y devuelve un String con la dirección IP convertida a formato Binario
+     * @param octeto
+     * @return
+     */
     public String toBinary(int octeto){
         String oct="";
         String oct2="";
@@ -57,7 +80,11 @@ public class Archivo {
         return oct2;
     }
 
-
+    /**
+     * Método que recibe un Strig con la dirección IP en formato binario y devuelve un String con la dirección IP convertida a formato Decimal
+     * @param octeto
+     * @return
+     */
     public int toDecimal(String octeto){
         int oct=0;
         int pot=0;
@@ -70,8 +97,11 @@ public class Archivo {
         return oct;
     }
 
-
-    public void extraerDatos(String linea) {
+    /**
+     * Método que recibe un String y determina a qué formato debe converir el valor, lo convierte y clasifica teniendo en cuenta las reglas de IP versión 4
+     * @param linea
+     */
+    public void clasificar(String linea) {
         String ip[]=new String[4];
         String oct1;
         String oct2;
@@ -149,6 +179,11 @@ public class Archivo {
         //Broadcast - Los mensajes que se dirigen a todas las computadoras en una red se envían como broadcast. Estos mensajes utilizan siempre La dirección IP 255.255.255.255.
     }
 
+    /**
+     * Método principal
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         Archivo unArchivo = new Archivo("./Datos/Archivo.txt");
         unArchivo.obtenerArchivo();
