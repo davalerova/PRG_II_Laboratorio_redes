@@ -1,75 +1,18 @@
-/*package Laboratorio_redes;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-
-
-public class Archivo {
-    private String cadenaArchivo;
-    private Scanner input;
-
-    public Archivo() {
-        this.cadenaArchivo="";
-        try{this.input= new Scanner(new File("./Datos/Archivo.txt"));
-        } catch(FileNotFoundException e) {
-            e.printStackTrace ();
-        }
-    }
-
-    public String obtenerArchivo() {
-        boolean c=true;
-        while(input.hasNext()) {
-            this.cadenaArchivo=input.nextLine()+"\n";
-            System.out.println(cadenaArchivo);
-            if(c)cadenaArchivo=cadenaArchivo.substring(3, cadenaArchivo.length()-1)+"\n";
-            for(int i=0;i<cadenaArchivo.length();i++)if(cadenaArchivo.charAt(i)=='0')extraerDatos(this.cadenaArchivo);
-            c=false;
-        }
-        return cadenaArchivo;
-    }
-
-    public String toBinary(int octeto){
-        String oct="";
-        String oct2="";
-        while(octeto>0){
-            if(octeto%2==1)oct+="1";
-            else oct+="0";
-            octeto/=2;
-        }
-        int oct3=oct.length();
-        for(int i=0;i<8-oct3;i++){
-            oct+="0";
-        }
-        for(int i=oct.length()-1;i>=0;i--){
-            oct2+=oct.charAt(i);
-        }
-        return oct2;
-    }
-
-    public void extraerDatos(String linea) {
-        String ip[]=linea.split("\\.");
-        System.out.print(toBinary(Integer.parseInt(ip[0]))+".");
-        System.out.print(toBinary(Integer.parseInt(ip[1]))+".");
-        System.out.print(toBinary(Integer.parseInt(ip[2]))+".");
-        System.out.print(toBinary(Integer.parseInt(ip[3].substring(0,ip[3].length()-1)))+"\n");
-
-        /*
-        if(Integer.parseInt(ip[0])<128)System.out.println("ip: "+linea+"Clase A");
-        else if(Integer.parseInt(ip[0])<192)System.out.println("ip: "+linea+"Clase B");
-        else if(Integer.parseInt(ip[0])<224)System.out.println("ip: "+linea+"Clase C");
-    }
-}*/
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class Archivo {
+    String path;
 
-    public static void obtenerArchivo(String archivo) throws FileNotFoundException, IOException {
+    public Archivo(String path) {
+        this.path=path;
+    }
+
+    public void obtenerArchivo() throws FileNotFoundException, IOException {
         String cadena;
-        FileReader f = new FileReader(archivo);
+        FileReader f = new FileReader(this.path);
         BufferedReader b = new BufferedReader(f);
         int line=1;
         while((cadena = b.readLine())!=null) {
@@ -89,7 +32,7 @@ public class Archivo {
 
 
 
-    public static String toBinary(int octeto){
+    public String toBinary(int octeto){
         String oct="";
         String oct2="";
         while(octeto>0){
@@ -108,7 +51,7 @@ public class Archivo {
     }
 
 
-    public static int toDecimal(String octeto){
+    public int toDecimal(String octeto){
         int oct=0;
         int pot=0;
         for(int i=0;i<=octeto.length()-1;i++){
@@ -121,7 +64,7 @@ public class Archivo {
     }
 
 
-    public static void extraerDatos(String linea) {
+    public void extraerDatos(String linea) {
         String ip[]=new String[4];
         String oct1;
         String oct2;
@@ -196,6 +139,7 @@ public class Archivo {
     }
 
     public static void main(String[] args) throws IOException {
-        obtenerArchivo("./Datos/Archivo.txt");
+        Archivo unArchivo = new Archivo("./Datos/Archivo.txt");
+        unArchivo.obtenerArchivo();
     }
 }
