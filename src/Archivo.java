@@ -11,19 +11,26 @@ public class Archivo {
     }
 
     public void obtenerArchivo() throws FileNotFoundException, IOException {
+        System.out.print("\nIP archivo: " + "\t\t\t\t\t\t\t\t\t\t\t\t"+"IP equivalente:"+ "\t\t\t\t\t\t\t\t\t\t\t"+"Pertenece a:"+ "\t\t"+"Observaciones:");
         String cadena;
         FileReader f = new FileReader(this.path);
         BufferedReader b = new BufferedReader(f);
         int line=1;
         while((cadena = b.readLine())!=null) {
             if(line==1)cadena=cadena.substring(1,cadena.length());
-            System.out.print("\nIP archivo: "+cadena+"\t\t\t\t");
+            System.out.print("\n"+cadena);
+            if(cadena.length()==7) System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+            else if(cadena.length()<12) System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t");
+            else if(cadena.length()<35) System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t");
+            else System.out.print("\t\t\t\t\t\t\t");
             if(cadena.length()==35) {
                 extraerDatos(cadena);
+                System.out.print("\t\t\t\t\t\t\t");
             }
 
             else{
                 extraerDatos(cadena);
+                System.out.print("\t\t\t\t\t\t\t");
             }
             line++;
         }
@@ -80,16 +87,21 @@ public class Archivo {
             System.out.print(oct2);
             System.out.print(oct3);
             System.out.print(oct4);
+            System.out.print("\t\t\t\t\t\t");
         }
         else {
             oct1 = (linea.substring(0, 8));
-            System.out.print(toDecimal(oct1)+".");
             oct2=(linea.substring(9,17));
-            System.out.print(toDecimal(oct2)+".");
             oct3=(linea.substring(18,26));
-            System.out.print(toDecimal(oct3)+".");
             oct4=(linea.substring(27,35));
-            System.out.print(toDecimal(oct4));
+            String ipdec=""+toDecimal(oct1)+"."+toDecimal(oct2)+"."+toDecimal(oct3)+"."+toDecimal(oct4);
+            System.out.print(ipdec);
+            //System.out.print(" "+ipdec.length());
+            if(ipdec.length()==7)      System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+            else if(ipdec.length()<12) System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t");
+            else if(ipdec.length()<16) System.out.print("\t\t\t\t\t\t\t\t\t\t\t");
+            else if(ipdec.length()<35) System.out.print("\t\t\t\t\t\t\t\t\t");
+            else System.out.print("\t\t\t\t\t\t\t");
         }
 
         /**
@@ -112,28 +124,28 @@ public class Archivo {
          * Clase C: 192.168.0.0 a 192.168.255.255 (24 bits red, 8 bits hosts). 253 redes clase C continuas, uso de compañías medias y pequeñas además de pequeños proveedores de internet (ISP)
          */
         if(oct1.charAt(0)=='0'){
-            System.out.print(" - Pertenece a la clase A");
+            System.out.print("Clase A\t\t\t\t");
             if(oct1.substring(0,8).equals("00000000")&&oct2.substring(0,8).equals("00000000")&&oct3.substring(0,8).equals("00000000")&&oct4.substring(0,8).equals("00000000"))
-                System.out.print(" - Esta dirección está reservada por la IANA para identificación local.");
+                System.out.print("Esta dirección está reservada por la IANA para identificación local.");
             else{
-                if(oct1.substring(0,8).equals("00001010")) System.out.print(" - Esta red es privada");
-                if(oct2.substring(0,8).equals("00000000")&&oct3.substring(0,8).equals("00000000")&&oct4.substring(0,8).equals("00000000")) System.out.print(" - Esta dirección identifica a la red");
-                if(oct2.substring(0,8).equals("11111111")&&oct3.substring(0,8).equals("11111111")&&oct4.substring(0,8).equals("11111111")) System.out.print(" - Esta es una dirección de difusión o broadcast");
+                if(oct1.substring(0,8).equals("00001010")) System.out.print("Esta red es privada");
+                if(oct2.substring(0,8).equals("00000000")&&oct3.substring(0,8).equals("00000000")&&oct4.substring(0,8).equals("00000000")) System.out.print("Esta dirección identifica a la red");
+                if(oct2.substring(0,8).equals("11111111")&&oct3.substring(0,8).equals("11111111")&&oct4.substring(0,8).equals("11111111")) System.out.print("Esta es una dirección de difusión o broadcast");
             }
 
         }else if(oct1.substring(0,2).equals("10")){
-            System.out.print(" - Pertenece a la clase B");
-            if(oct3.substring(0,8).equals("00000000")&&oct4.substring(0,8).equals("00000000")) System.out.print(" - Esta dirección identifica a la red");
-            if(oct3.substring(0,8).equals("11111111")&&oct4.substring(0,8).equals("11111111")) System.out.print(" - Esta es una dirección de difusión o broadcast");
-            if(oct1.substring(0,8).equals("10101100")&&oct2.charAt(3)=='1')System.out.print(" - Esta red es privada");
+            System.out.print("Clase B\t\t\t\t");
+            if(oct3.substring(0,8).equals("00000000")&&oct4.substring(0,8).equals("00000000")) System.out.print("Esta dirección identifica a la red");
+            if(oct3.substring(0,8).equals("11111111")&&oct4.substring(0,8).equals("11111111")) System.out.print("Esta es una dirección de difusión o broadcast");
+            if(oct1.substring(0,8).equals("10101100")&&oct2.charAt(3)=='1')System.out.print("Esta red es privada");
         }else if(oct1.substring(0,3).equals("110")){
-            System.out.print(" - Pertenece a la clase C");
-            if(oct4.substring(0,8).equals("00000000")) System.out.print(" - Esta dirección identifica a la red");
-            if(oct4.substring(0,8).equals("11111111")) System.out.print(" - Esta es una dirección de difusión o broadcast");
-            if(oct1.substring(0,8).equals("11000000")&&oct2.substring(0,8).equals("10101000"))System.out.print(" - Esta red es privada");
+            System.out.print("Clase C\t\t\t\t");
+            if(oct4.substring(0,8).equals("00000000")) System.out.print("Esta dirección identifica a la red");
+            if(oct4.substring(0,8).equals("11111111")) System.out.print("Esta es una dirección de difusión o broadcast");
+            if(oct1.substring(0,8).equals("11000000")&&oct2.substring(0,8).equals("10101000"))System.out.print("Esta red es privada");
         }else if(oct1.substring(0,4).equals("1110")){
-            System.out.print(" - Pertenece a la clase D");
-        }else System.out.print(" - Pertenece a la clase E");
+            System.out.print("Clase D\t\t\t\t");
+        }else System.out.print("Clase E\t\t\t\t");
         //Broadcast - Los mensajes que se dirigen a todas las computadoras en una red se envían como broadcast. Estos mensajes utilizan siempre La dirección IP 255.255.255.255.
     }
 
