@@ -121,7 +121,6 @@ public class Archivo {
                 if(oct2.substring(0,8).equals("11111111")&&oct3.substring(0,8).equals("11111111")&&oct4.substring(0,8).equals("11111111")) System.out.print(" - Esta es una dirección de difusión o broadcast");
             }
 
-
         }else if(oct1.substring(0,2).equals("10")){
             System.out.print(" - Pertenece a la clase B");
             if(oct3.substring(0,8).equals("00000000")&&oct4.substring(0,8).equals("00000000")) System.out.print(" - Esta dirección identifica a la red");
